@@ -17,10 +17,18 @@ public class BooksController {
 
     private final BookRepository bookRepository;
 
-    //Listagem de todos os livros
+    //Get todos os livros
     @GetMapping
     public List<Book> list(){
         return bookRepository.findAll();
+    }
+
+    //Get por ID
+    @GetMapping("/{id}")
+    public ResponseEntity<Book> findById(@PathVariable Long id){
+        return bookRepository.findById(id)
+                .map(record -> ResponseEntity.ok().body(record)).
+                orElse(ResponseEntity.notFound().build());
     }
 
     //Post de um livro

@@ -52,4 +52,16 @@ public class BooksController {
                 }).
                 orElse(ResponseEntity.notFound().build());
     }
+
+    //Delete de livros
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> delete(@PathVariable Long id){
+        return bookRepository.findById(id)
+                .map(recordFound -> {
+                    bookRepository.deleteById(id);
+                    return ResponseEntity.noContent().<Void>build();
+                })
+                .orElse(ResponseEntity.notFound().build());
+    }
+
 }

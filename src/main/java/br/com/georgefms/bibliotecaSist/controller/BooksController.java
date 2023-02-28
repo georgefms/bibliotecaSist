@@ -27,7 +27,7 @@ public class BooksController {
     @GetMapping("/{id}")
     public ResponseEntity<Book> findById(@PathVariable Long id){
         return bookRepository.findById(id)
-                .map(record -> ResponseEntity.ok().body(record)).
+                .map(recordFound -> ResponseEntity.ok().body(recordFound)).
                 orElse(ResponseEntity.notFound().build());
     }
 
@@ -36,5 +36,20 @@ public class BooksController {
     @ResponseStatus(code = HttpStatus.CREATED)
     public Book create(@RequestBody Book book){
         return bookRepository.save(book);
+    }
+
+    //Put de um registro
+    @PutMapping("/{id}")
+    public ResponseEntity<Book> update(@PathVariable Long id, @RequestBody Book book){
+        return bookRepository.findById(id)
+                .map(recordFound -> {
+                    recordFound.setName(book.getName());
+                    recordFound.setAuthor(book.getAuthor());
+                    recordFound.setYear(book.getYear());
+                    recordFound.setGender(book.getGender());
+                    Book updated = bookRepository.save(recordFound);
+                    return ResponseEntity.ok().body(updated);
+                }).
+                orElse(ResponseEntity.notFound().build());
     }
 }

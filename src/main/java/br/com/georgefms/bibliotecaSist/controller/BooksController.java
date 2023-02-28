@@ -5,10 +5,15 @@ import br.com.georgefms.bibliotecaSist.repository.BookRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Positive;
 import java.util.List;
 
+@Validated
 @RestController
 @RequestMapping("/api/books")
 //Instanciando o repositório
@@ -25,7 +30,7 @@ public class BooksController {
 
     //Get por ID
     @GetMapping("/{id}")
-    public ResponseEntity<Book> findById(@PathVariable Long id){
+    public ResponseEntity<Book> findById(@PathVariable @NotNull @Positive Long id){
         return bookRepository.findById(id)
                 .map(recordFound -> ResponseEntity.ok().body(recordFound)).
                 orElse(ResponseEntity.notFound().build());
@@ -34,13 +39,13 @@ public class BooksController {
     //Post de um livro
     @PostMapping
     @ResponseStatus(code = HttpStatus.CREATED)
-    public Book create(@RequestBody Book book){
+    public Book create(@RequestBody @Valid Book book){
         return bookRepository.save(book);
     }
 
     //Put de um registro
     @PutMapping("/{id}")
-    public ResponseEntity<Book> update(@PathVariable Long id, @RequestBody Book book){
+    public ResponseEntity<Book> update(@PathVariable @NotNull @Positive Long id, @RequestBody Book book){
         return bookRepository.findById(id)
                 .map(recordFound -> {
                     recordFound.setName(book.getName());
@@ -55,7 +60,7 @@ public class BooksController {
 
     //Delete de livros
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> delete(@PathVariable Long id){
+    public ResponseEntity<Void> delete(@PathVariable @NotNull @Positive Long id){
         return bookRepository.findById(id)
                 .map(recordFound -> {
                     bookRepository.deleteById(id);

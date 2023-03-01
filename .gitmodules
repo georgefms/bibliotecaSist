@@ -1,0 +1,3 @@
+[submodule "front-biblioteca"]
+	path = front-biblioteca
+	url = https://github.com/georgefms/front-biblioteca

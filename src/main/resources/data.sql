@@ -1,0 +1,26 @@
+insert into data (id, name, year, author, gender) values (1, 'Ritchie, Waters and Moen', 2003, 'Karim Cullen', 'Fantasia');
+insert into data (id, name, year, author, gender) values (2, 'Nader, Abernathy and McClure', 2009, 'Hally Macrow', 'Suspense');
+insert into data (id, name, year, author, gender) values (3, 'Terry Group', 2004, 'Bertie Jouanny', 'Terror');
+insert into data (id, name, year, author, gender) values (4, 'Harris-Wilkinson', 2008, 'Blaire Hawsby', 'Suspense');
+insert into data (id, name, year, author, gender) values (5, 'Durgan-Schowalter', 2011, 'Leilah Torfin', 'Suspense');
+insert into data (id, name, year, author, gender) values (6, 'Marquardt, Hand and Lebsack', 2011, 'Jere Whitwam', 'Drama');
+insert into data (id, name, year, author, gender) values (7, 'Friesen, Ernser and Upton', 2011, 'Northrop Dorin', 'Drama');
+insert into data (id, name, year, author, gender) values (8, 'Krajcik Inc', 2004, 'Belicia Kidner', 'Drama');
+insert into data (id, name, year, author, gender) values (9, 'Fritsch and Sons', 1976, 'Kin Casajuana', 'Terror');
+insert into data (id, name, year, author, gender) values (10, 'Gutkowski and Sons', 2005, 'Carmon Meagher', 'Terror');
+insert into data (id, name, year, author, gender) values (11, 'Schmeler and Sons', 2001, 'Octavius Gilliland', 'Suspense');
+insert into data (id, name, year, author, gender) values (12, 'Dickinson Group', 1996, 'Sigismondo Stroobant', 'Auto-ajuda');
+insert into data (id, name, year, author, gender) values (13, 'Emmerich, Pacocha and Powlowski', 2008, 'Gaven Hully', 'Auto-ajuda');
+insert into data (id, name, year, author, gender) values (14, 'Daugherty and Sons', 2002, 'Hiram Ossulton', 'Drama');
+insert into data (id, name, year, author, gender) values (15, 'Pfeffer LLC', 2012, 'Austen Sainer', 'Suspense');
+insert into data (id, name, year, author, gender) values (16, 'Buckridge LLC', 2011, 'Murdock Gerrish', 'Terror');
+insert into data (id, name, year, author, gender) values (17, 'Kuhic-Hagenes', 1990, 'Howard Parkes', 'Fantasia');
+insert into data (id, name, year, author, gender) values (18, 'Corkery-Feeney', 1997, 'Nathanael Rubberts', 'Drama');
+insert into data (id, name, year, author, gender) values (19, 'Moen, Krajcik and Koelpin', 1983, 'Laurella Garley', 'Drama');
+insert into data (id, name, year, author, gender) values (20, 'Conn, Graham and Schmitt', 2008, 'Benjie Hurle', 'Drama');
+insert into data (id, name, year, author, gender) values (21, 'Will-Schumm', 2005, 'Sallee Upwood', 'Drama');
+insert into data (id, name, year, author, gender) values (22, 'Murphy Inc', 2002, 'Christi Babbe', 'Auto-ajuda');
+insert into data (id, name, year, author, gender) values (23, 'Turner, Hodkiewicz and Bins', 1996, 'Chauncey Yeiles', 'Suspense');
+insert into data (id, name, year, author, gender) values (24, 'Windler-Lakin', 1986, 'Dodie Fabbro', 'Fantasia');
+insert into data (id, name, year, author, gender) values (25, 'Reichel, Kuvalis and Russel', 1995, 'Staci Grahlmans', 'Suspense');
+insert into user(id, nick, password, role) values (1, 'Admin', 12345678, 'Admin')

@@ -13,6 +13,10 @@ import javax.validation.constraints.NotNull;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
+
+//Adicionar um campo de criado por: usuario (e relação) para o controle de deletes.
+//@SQLDelete(sql = "UPDATE Book SET criador = 'Admin' WHERE id = ?")
+//@Where (clause = "criador" = "Admin")
 public class Book {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

@@ -13,6 +13,7 @@ import javax.validation.constraints.NotNull;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
+@Table(name = "TB_BOOK")
 
 //Adicionar um campo de criado por: usuario (e relação) para o controle de deletes.
 //@SQLDelete(sql = "UPDATE Book SET criador = 'Admin' WHERE id = ?")

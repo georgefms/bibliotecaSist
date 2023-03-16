@@ -5,6 +5,7 @@ import br.com.georgefms.bibliotecaSist.model.User;
 import br.com.georgefms.bibliotecaSist.repository.UserRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -19,6 +20,7 @@ public class UsersController {
 
     //Get users
     @GetMapping
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public List<User> list(){
         return userRepository.findAll();
     }

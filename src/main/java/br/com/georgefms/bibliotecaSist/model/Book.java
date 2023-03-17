@@ -15,14 +15,11 @@ import javax.validation.constraints.NotNull;
 @Entity
 @Table(name = "TB_BOOK")
 
-//Adicionar um campo de criado por: usuario (e relação) para o controle de deletes.
-//@SQLDelete(sql = "UPDATE Book SET criador = 'Admin' WHERE id = ?")
-//@Where (clause = "criador" = "Admin")
+
 public class Book {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    @NotNull
     @NotBlank
     @Length(min =5, max= 150)
     @Column(length = 150, nullable = false)
@@ -31,13 +28,13 @@ public class Book {
     @Column(length = 4, nullable = false)
     private Integer year;
     @NotBlank
-    @NotNull
     @Length(max = 100)
     @Column(length = 100, nullable = false)
     private String author;
     @NotBlank
-    @NotNull
     @Length(max = 100)
     @Column(length = 100, nullable = false)
     private String gender;
+    @Column(length = 30, nullable = false)
+    private String createdBy;
 }

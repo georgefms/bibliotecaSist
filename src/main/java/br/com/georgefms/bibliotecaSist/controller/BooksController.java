@@ -1,10 +1,15 @@
 package br.com.georgefms.bibliotecaSist.controller;
 
 import br.com.georgefms.bibliotecaSist.model.Book;
+import br.com.georgefms.bibliotecaSist.model.User;
 import br.com.georgefms.bibliotecaSist.repository.BookRepository;
+import br.com.georgefms.bibliotecaSist.repository.UserRepository;
 import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -12,6 +17,7 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 import java.util.List;
+import java.util.Optional;
 
 @Validated
 @RestController
@@ -24,12 +30,14 @@ public class BooksController {
 
     //Get todos os livros
     @GetMapping
+    //@PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
     public List<Book> list(){
         return bookRepository.findAll();
     }
 
     //Get por ID
     @GetMapping("/{id}")
+    //@PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
     public ResponseEntity<Book> findById(@PathVariable @NotNull @Positive Long id){
         return bookRepository.findById(id)
                 .map(recordFound -> ResponseEntity.ok().body(recordFound)).
@@ -37,14 +45,18 @@ public class BooksController {
     }
 
     //Post de um livro
-    @PostMapping
     @ResponseStatus(code = HttpStatus.CREATED)
-    public Book create(@RequestBody @Valid Book book){
+    @PostMapping
+    //@PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
+    public Book  create(@RequestBody @Valid Book book, Authentication authentication){
+        book.setCreatedBy(authentication.getName());
         return bookRepository.save(book);
+
     }
 
     //Put de um registro
     @PutMapping("/{id}")
+    //@PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     public ResponseEntity<Book> update(@PathVariable @NotNull @Positive Long id, @RequestBody Book book){
         return bookRepository.findById(id)
                 .map(recordFound -> {
@@ -60,6 +72,7 @@ public class BooksController {
 
     //Delete de livros
     @DeleteMapping("/{id}")
+    //@PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     public ResponseEntity<Void> delete(@PathVariable @NotNull @Positive Long id){
         return bookRepository.findById(id)
                 .map(recordFound -> {

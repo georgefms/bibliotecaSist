@@ -6,10 +6,12 @@ import br.com.georgefms.bibliotecaSist.repository.BookRepository;
 import br.com.georgefms.bibliotecaSist.repository.UserRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.parameters.P;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -30,14 +32,14 @@ public class BooksController {
 
     //Get todos os livros
     @GetMapping
-    //@PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
     public List<Book> list(){
         return bookRepository.findAll();
     }
 
     //Get por ID
     @GetMapping("/{id}")
-    //@PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
     public ResponseEntity<Book> findById(@PathVariable @NotNull @Positive Long id){
         return bookRepository.findById(id)
                 .map(recordFound -> ResponseEntity.ok().body(recordFound)).
@@ -47,7 +49,8 @@ public class BooksController {
     //Post de um livro
     @ResponseStatus(code = HttpStatus.CREATED)
     @PostMapping
-    //@PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
+    //@PreAuthorize("authentication.name == #book.createdBy")
     public Book  create(@RequestBody @Valid Book book, Authentication authentication){
         book.setCreatedBy(authentication.getName());
         return bookRepository.save(book);
@@ -56,7 +59,7 @@ public class BooksController {
 
     //Put de um registro
     @PutMapping("/{id}")
-    //@PreAuthorize("hasAnyRole('ROLE_ADMIN')")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     public ResponseEntity<Book> update(@PathVariable @NotNull @Positive Long id, @RequestBody Book book){
         return bookRepository.findById(id)
                 .map(recordFound -> {
@@ -73,6 +76,12 @@ public class BooksController {
     //Delete de livros
     @DeleteMapping("/{id}")
     //@PreAuthorize("hasAnyRole('ROLE_ADMIN')")
+    /*
+     * autentication.name retorna o nome do usuario a realizar a requisição
+     * que deveria ser comprarado com #Book.createdby, mas o livro não está sendo lido
+     */
+
+    //@PreAuthorize("authentication.name == #book.createBy")
     public ResponseEntity<Void> delete(@PathVariable @NotNull @Positive Long id){
         return bookRepository.findById(id)
                 .map(recordFound -> {

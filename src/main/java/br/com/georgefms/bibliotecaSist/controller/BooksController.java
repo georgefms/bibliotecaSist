@@ -4,6 +4,7 @@ import br.com.georgefms.bibliotecaSist.model.Book;
 import br.com.georgefms.bibliotecaSist.model.User;
 import br.com.georgefms.bibliotecaSist.repository.BookRepository;
 import br.com.georgefms.bibliotecaSist.repository.UserRepository;
+import br.com.georgefms.bibliotecaSist.service.BooksService;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.query.Param;
@@ -28,67 +29,59 @@ import java.util.Optional;
 @AllArgsConstructor
 public class BooksController {
 
-    private final BookRepository bookRepository;
+    @Autowired
+    private BooksService bookService;
 
     //Get todos os livros
     @GetMapping
     @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
-    public List<Book> list(){
-        return bookRepository.findAll();
+    public List<Book> getAllBooks(Authentication auth){
+        return bookService.getAllBooks(auth);
     }
 
     //Get por ID
     @GetMapping("/{id}")
     @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
     public ResponseEntity<Book> findById(@PathVariable @NotNull @Positive Long id){
-        return bookRepository.findById(id)
-                .map(recordFound -> ResponseEntity.ok().body(recordFound)).
-                orElse(ResponseEntity.notFound().build());
+        return bookService.findById(id);
     }
 
     //Post de um livro
     @ResponseStatus(code = HttpStatus.CREATED)
     @PostMapping
     @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
-    //@PreAuthorize("authentication.name == #book.createdBy")
-    public Book  create(@RequestBody @Valid Book book, Authentication authentication){
-        book.setCreatedBy(authentication.getName());
-        return bookRepository.save(book);
+    public Book  postBook(@RequestBody @Valid Book book, Authentication authentication){
+        return bookService.createBook(book, authentication);
 
     }
 
     //Put de um registro
     @PutMapping("/{id}")
-    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
-    public ResponseEntity<Book> update(@PathVariable @NotNull @Positive Long id, @RequestBody Book book){
-        return bookRepository.findById(id)
-                .map(recordFound -> {
-                    recordFound.setName(book.getName());
-                    recordFound.setAuthor(book.getAuthor());
-                    recordFound.setYear(book.getYear());
-                    recordFound.setGender(book.getGender());
-                    Book updated = bookRepository.save(recordFound);
-                    return ResponseEntity.ok().body(updated);
-                }).
-                orElse(ResponseEntity.notFound().build());
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
+//    public Book putBook(@PathVariable Long id, @Valid @RequestBody Book bookRequest, Authentication auth){
+//        String username = auth.getName();
+//        boolean isAdmin = auth.getAuthorities().stream()
+//                .anyMatch(a -> a.getAuthority().equals("ROLE_ADMIN"));
+//        return BooksService.updateBook(id, bookRequest, username, isAdmin);
+//    }
+    public Book updateBook(@PathVariable Long id, @Valid @RequestBody Book bookRequest, Authentication authentication) {
+        String username = authentication.getName();
+        boolean isAdmin = authentication.getAuthorities().stream()
+                .anyMatch(a -> a.getAuthority().equals("ROLE_ADMIN"));
+        return bookService.updateBook(id, bookRequest, username, isAdmin);
     }
-
     //Delete de livros
     @DeleteMapping("/{id}")
-    //@PreAuthorize("hasAnyRole('ROLE_ADMIN')")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
     /*
-     * autentication.name retorna o nome do usuario a realizar a requisição
-     * que deveria ser comprarado com #Book.createdby, mas o livro não está sendo lido
+     * O boleano isAdmin compara se o utilizador logado tem a role admin e permite a exclusão de qualquer registro
      */
-
-    //@PreAuthorize("authentication.name == #book.createBy")
-    public ResponseEntity<Void> delete(@PathVariable @NotNull @Positive Long id){
-        return bookRepository.findById(id)
-                .map(recordFound -> {
-                    bookRepository.deleteById(id);
-                    return ResponseEntity.noContent().<Void>build();
-                })
-                .orElse(ResponseEntity.notFound().build());
+    public ResponseEntity<Void> deleteBook(@PathVariable Long id, Authentication auth){
+        String username = auth.getName();
+        boolean isAdmin = auth.getAuthorities().stream()
+                .anyMatch(a -> a.getAuthority().equals("ROLE_ADMIN"));
+        bookService.deleteBook(id, username, isAdmin);
+        return ResponseEntity.noContent().build();
     }
 
 }

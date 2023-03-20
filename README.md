@@ -14,7 +14,7 @@ No atual repositório está a minha resposta para o teste técnico que me foi en
   gerar  as informações e validações no front. 
   - BackEnd: Java Spring Boot, também já tinha usado para fazer um pequeno projeto de crud. 
   
-## Objetivos e Dificuldades encontradas  
+## Objetivos, resultados e Dificuldades encontradas  
 - **Objetivos**: desenvolver um sistema para gerenciamento de uma biblioteca.
   - Contando com 2 perfis, um de ADMIN que pode realizar  todo o crud de livros e os perfis de usuário, os quais poderiam consultar 
     todos os livros presentes  no sistema, cadastrar novos e expluir apenas o que cadastrou. 
@@ -23,12 +23,15 @@ No atual repositório está a minha resposta para o teste técnico que me foi en
   - CRUD de todos os  dados pelo  ADMIN.
   - Operações citadas anteriormente para o usuário. 
 
+- **Resultados**: 
+  - Foi implementado toda a lógica de permissões dos usuários, com o uso do spring security. Faltando apenas a implementação de sessões.
+  - O usuário com roles de ADMIN é capaz de realizar as operações de crud em todos os dados da aplicação. 
+  - Os demais usuários, apenas podem editar/excluir dados os quais os mesmos cadastraram e a sua consulta retorna primeiro tais dados, para uma melhor visualização.
+
 - **Dificuldades**: 
-  - Aplicar o Spring Security para gerir os privilégios/Sessão de cada grau de usuário, nunca tinha tentado utilizar então acabei 
-  não conseguindo adicionalo a aplicação.
-  - Como não tinha as sessões definidas o front referente ao usuário não se foi finalizado, deixando apenas o para o ADMIN.
+  - Implementação do JWT para gerir as sessões de usuário. 
+  - Como não tinha as sessões definidas o front não recebeu alterações para a implementação da autenticação e controle de login.
   - Foi implementada a tela de cadastro de novos usuários, porém não consegui implementar a recuperação.
-  - Definição de relações entre livros e usuários. 
   - Deveria ter usado DTOS.
   
 ### Configuração e execução do projeto: 
@@ -50,3 +53,4 @@ Basta configurar a autenticação para  User e Password e usar os dados incluíd
  }
 ```
 
+Faz-se necessário usar rodar todas as linhas do arquivo data.sql, pois o mesmo contém os dados iniciais para a aplicação. 

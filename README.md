@@ -54,3 +54,16 @@ Basta configurar a autenticação para  User e Password e usar os dados incluíd
 ```
 
 Faz-se necessário usar rodar todas as linhas do arquivo data.sql, pois o mesmo contém os dados iniciais para a aplicação. 
+
+Ambos os usuários presentes no arquivo data.sql possuem as seguintes credenciais:  
+
+```json
+{ 
+"usuário": "admin",
+"senha": "master123"
+},
+{ 
+"usuário": "user",
+"senha": "master123"
+},
+```

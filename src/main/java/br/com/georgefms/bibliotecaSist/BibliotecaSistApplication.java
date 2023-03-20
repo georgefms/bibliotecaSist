@@ -8,31 +8,15 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 @SpringBootApplication
 public class BibliotecaSistApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(BibliotecaSistApplication.class, args);
+		//Senha encriptada para teste
+		System.out.println(new BCryptPasswordEncoder().encode("master123"));
 	}
 
-	//Iniciando com  dados para teste.
-//	@Bean
-//	CommandLineRunner initDataBase(BookRepository bookRepository, UserRepository userRepository){
-//		return args -> {
-//			bookRepository.deleteAll();
-//			Book b = new Book();
-//			b.setName("Testando maximus");
-//			b.setYear(1978);
-//			b.setAuthor("jooj ojjo");
-//			b.setGender("suspense");
-//			bookRepository.save(b);
-//			userRepository.deleteAll();
-//			User a = new User();
-//			a.setNick("Admin");
-//			a.setPassword("12345678");
-//			a.setRole("Admin");
-//			userRepository.save(a);
-//		};
-//	}
 }
